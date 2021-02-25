@@ -21,36 +21,49 @@ capabilities.
 -Role based Access Controls
 
 #### Preparing to Load Data
--First step is to create a database and table on the Snowflake Cloud
--External stage needs to be created to copy data from S3bucket into table created
+First step is to create a database and table on the Snowflake Cloud
+External stage needs to be created to copy data from S3bucket into table created
    ```
-   create or replace stage citibike_trips url = 's3://snowflake-workshop-lab/citibike-trips';
+    create or replace stage citibike_trips url = 's3://snowflake-workshop-lab/citibike-trips';
    ```
--We have to created a file format for data that will be stored in table
+We have to created a file format for data that will be stored in table
 
 #### Loading Data
--In order to stage data from S3 into table we need to create datawarehouse using below query
-    create or replace warehouse analytics_wh with warehouse_size = 'large' warehouse_type = 'standard' 
+In order to stage data from S3 into table we need to create datawarehouse using below query
+```   
+ create or replace warehouse analytics_wh with warehouse_size = 'large' warehouse_type = 'standard' 
      auto_suspend = 600 auto_resume = true;
--Loading data into table using below query
-    copy into trips from @citibike_trips file_format=csv;
+```
+Loading data into table using below query
+```    
+copy into trips from @citibike_trips file_format=csv;
+```
 
 #### Analytical Queries, Results Cache, Cloning
--Performed select queries on dataset and checked the results before and after caching
--Cloning the existing table using below command
-     create table trips_dev1 clone trips;
+Performed select queries on dataset and checked the results before and after caching
+Cloning the existing table using below command
+```     
+create table trips_dev1 clone trips;
+```
 
 #### Working with Semi structured data, views
--Load weather data in JSON format held in a public S3 bucket
-     copy into json_weather_data from @nyc_weather file_format = (type=json);
--Created a View and query the semi-structured data using SQL dot notation
+Load weather data in JSON format held in a public S3 bucket
+```     
+copy into json_weather_data from @nyc_weather file_format = (type=json);
+```
+Created a View and query the semi-structured data using SQL dot notation
 
 #### Time Travelling
--Restoring weather data after deleting it accidently using below query
-     undrop table json_weather_data;
--Rolling back the update action
+Restoring weather data after deleting it accidently using below query
+```     
+undrop table json_weather_data;
+```
+Rolling back the update action
 
 #### Role based Access Controls
--Granting access to user using below query
-    create role junior_dba;
-     grant role junior_dba to user KEERTI26;-
+Granting access to user using below query
+```
+create role junior_dba;
+grant role junior_dba to user KEERTI26;-
+```
+
