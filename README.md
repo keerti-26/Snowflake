@@ -23,7 +23,9 @@ capabilities.
 #### Preparing to Load Data
 -First step is to create a database and table on the Snowflake Cloud
 -External stage needs to be created to copy data from S3bucket into table created
+   ```
    create or replace stage citibike_trips url = 's3://snowflake-workshop-lab/citibike-trips';
+   ```
 -We have to created a file format for data that will be stored in table
 
 #### Loading Data
